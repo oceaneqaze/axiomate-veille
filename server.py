@@ -309,3 +309,15 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))
     log(f"🚀 Serveur Axiomate sur http://localhost:{port}")
     app.run(host="0.0.0.0", port=port, debug=False)
+@app.route("/run-veille")
+def run_veille():
+    """Route appelée par cron-job.org pour lancer la veille."""
+    import subprocess, threading
+    
+    def launch():
+        subprocess.run(["python", "veille.py"], cwd=Path(__file__).parent)
+    
+    # Lance en arrière-plan pour ne pas bloquer la réponse
+    threading.Thread(target=launch, daemon=True).start()
+    
+    return jsonify({"ok": True, "message": "Veille lancée"}), 200
