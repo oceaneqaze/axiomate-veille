@@ -42,9 +42,36 @@ def load_db() -> dict:
             return json.load(f)
     return {"items": [], "seen_ids": [], "last_sync": None}
 
-def save_db(db: dict):
+def save_db(db):
+    """Sauvegarde data.json localement ET sur GitHub."""
+    import requests, base64
+
+    db["last_sync"] = datetime.datetime.now().strftime("%d/%m/%Y à %H:%M")
+    content = json.dumps(db, ensure_ascii=False, indent=2)
+
+    # Sauvegarde locale
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(db, f, ensure_ascii=False, indent=2)
+        f.write(content)
+
+    # Push sur GitHub → déclenche le redéploiement Netlify
+    token = os.getenv("GITHUB_TOKEN")
+    repo  = os.getenv("GITHUB_REPO")  # ex: "aude/axiomate-veille"
+    if not token or not repo:
+        return
+
+    api_url = f"https://api.github.com/repos/{repo}/contents/data.json"
+    headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
+
+    # Récupère le SHA actuel du fichier
+    r = requests.get(api_url, headers=headers)
+    sha = r.json().get("sha", "") if r.status_code == 200 else ""
+
+    # Push le nouveau contenu
+    requests.put(api_url, headers=headers, json={
+        "message": f"[auto] Veille IA — {datetime.date.today().isoformat()}",
+        "content": base64.b64encode(content.encode()).decode(),
+        "sha": sha
+    })
 
 # ── GÉNÉRATION THREAD ─────────────────────────────────────────────────────────
 
