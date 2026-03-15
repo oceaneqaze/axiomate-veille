@@ -1,0 +1,125 @@
+[19:41:34] ==================================================
+[19:41:34] 🚀 Démarrage veille IA — 2026-03-15
+[19:41:34] ==================================================
+[19:41:39] Reddit r/AItools: HTTP 404
+[19:42:08] Reddit: 12 candidats
+[19:42:12] YouTube: 0 candidats
+[19:42:25] Blogs: 4 candidats
+[19:42:38] Twitter/X: 2 candidats
+[19:42:38] 
+📊 Total candidats bruts: 18
+[19:42:38] 🧠 Envoi de 18 items à Claude pour enrichissement...
+[19:42:59] Batch 1 enrichi : 5 analysés → 4 retenus
+[19:43:18] Batch 2 enrichi : 5 analysés → 5 retenus
+[19:43:38] Batch 3 enrichi : 5 analysés → 4 retenus
+[19:43:52] Batch 4 enrichi : 3 analysés → 2 retenus
+[19:43:53] 
+✅ 15 items retenus après filtrage IA
+[19:43:53] 💾 data.json mis à jour — 15 items au total
+[19:43:57] ✅ Email envoyé à dohouemmaalk@gmail.com (15 items)
+[19:43:57] 
+🎉 Veille terminée avec succès !
+[19:43:57] 📚 Bibliothèque: ouvre index.html dans ton navigateur
+[20:02:28] =======================================================
+[20:02:28] 🚀 AXIOMATE Veille IA v2 — 2026-03-15
+[20:02:28] =======================================================
+[20:02:33] Reddit r/AItools: HTTP 404
+[20:03:11] Reddit: 8 candidats
+[20:03:12] YouTube chaîne Fireship: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:13] YouTube chaîne Matt Wolfe: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:15] YouTube chaîne Two Minute Papers: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:16] YouTube chaîne Greg Isenberg: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:17] YouTube chaîne Andrej Karpathy: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:19] YouTube chaîne Wes Roth: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:20] YouTube chaîne Luke Miani: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:21] YouTube chaîne The Futur: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:22] YouTube search 'AI automation tutorial 2026': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:23] YouTube search 'make money with AI tools': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:24] YouTube search 'AI video generation marketing': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:25] YouTube search 'n8n automation workflow': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:26] YouTube search 'ChatGPT business tips': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:27] YouTube search 'AI content creation strategy': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:28] YouTube search 'UGC video AI generator': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:29] YouTube search 'prompt engineering tricks': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:31] YouTube search 'AI tools ecommerce 2026': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:33] YouTube search 'social media AI automation': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:03:33] YouTube (API): 0 candidats
+[20:03:51] Blogs: 1 candidats
+[20:04:10] Twitter/X: 4 candidats
+[20:04:10] 
+📊 Total candidats bruts: 13
+[20:04:10] 🧠 Envoi de 13 items à Claude (résumé + thread Facebook)...
+[20:04:53] Batch 1 enrichi : 5 analysés → 4 retenus
+[20:05:32] Batch 2 enrichi : 5 analysés → 5 retenus
+[20:05:57] Batch 3 enrichi : 3 analysés → 1 retenus
+[20:05:58] 
+✅ 10 items retenus — 10 posts Facebook générés
+[20:05:58] 💾 data.json mis à jour — 25 items total
+[20:06:04] ✅ Email envoyé à dohouemmaalk@gmail.com
+[20:06:04] 
+🎉 Veille terminée avec succès !
+[20:06:04] 📚 Ouvre index.html dans ton navigateur
+[20:29:40] =======================================================
+[20:29:40] 🚀 AXIOMATE Veille IA v3 — 2026-03-15
+[20:29:40] =======================================================
+[20:29:46] Reddit r/AItools: HTTP 404
+[20:30:39] Reddit: 2 candidats
+[20:30:40] YouTube chaîne Fireship: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:41] YouTube chaîne Matt Wolfe: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:43] YouTube chaîne Two Minute Papers: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:44] YouTube chaîne Greg Isenberg: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:46] YouTube chaîne Andrej Karpathy: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:48] YouTube chaîne Wes Roth: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:49] YouTube chaîne Luke Miani: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:51] YouTube chaîne The Futur: Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:53] YouTube search 'AI automation tutorial 2026': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:55] YouTube search 'make money with AI tools': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:56] YouTube search 'AI video generation marketing': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:58] YouTube search 'n8n automation workflow': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:30:59] YouTube search 'ChatGPT business tips': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:31:00] YouTube search 'AI content creation strategy': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:31:01] YouTube search 'UGC video AI generator': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:31:03] YouTube search 'prompt engineering tricks': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:31:05] YouTube search 'AI tools ecommerce 2026': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:31:07] YouTube search 'social media AI automation': Requests to this API youtube method youtube.api.v3.V3DataSearchService.List are blocked.
+[20:31:07] YouTube (API): 0 candidats
+[20:44:28] 🚀 Serveur Axiomate sur http://localhost:8080
+[20:45:17] ✅ Insight 133556 validé — thread en génération
+[20:45:21] Thread déjà généré pour item 133556
+[20:48:40] =======================================================
+[20:48:40] 🚀 AXIOMATE Veille IA v4 — 2026-03-15
+[20:48:40]    Scraping + résumé uniquement (pas de thread)
+[20:48:40]    Valide les insights dans l'interface ou par email
+[20:48:40] =======================================================
+[20:49:20] Reddit: 3 candidats
+[20:49:20] 🚀 Serveur Axiomate sur http://localhost:8080
+[20:50:00] YouTube: 34 candidats
+[20:50:17] Blogs: 0 candidats
+[20:50:36] Twitter/X: 0 candidats
+[20:50:36] 
+📊 37 candidats bruts
+[20:50:36] 🧠 Résumé de 37 items avec Claude…
+[20:50:53] Résumé batch 1 : 5 retenus
+[20:51:10] Résumé batch 2 : 5 retenus
+[20:51:24] Résumé batch 3 : 5 retenus
+[20:51:40] Résumé batch 4 : 5 retenus
+[20:51:55] Résumé batch 5 : 5 retenus
+[20:52:09] Résumé batch 6 : 5 retenus
+[20:52:25] Résumé batch 7 : 5 retenus
+[20:52:33] Résumé batch 8 : 2 retenus
+[20:52:33] ✅ 37 insights résumés — statut : EN ATTENTE DE VALIDATION
+[20:52:33] 💾 data.json mis à jour — 62 items total
+[20:52:38] ✅ Email envoyé à dohouemmaalk@gmail.com (37 items)
+[20:52:38] 
+🎉 Veille terminée !
+[20:52:38] 👉 Lance le serveur : python server.py
+[20:52:38] 👉 Puis ouvre : http://localhost:8080
+[20:53:19] ✅ Insight 164143 validé via email
+[20:53:23] 🧵 Génération thread pour : Amazon Seller AI : booster vos ventes e-commerce en 2026…
+[20:54:01] ✅ Insight 696971 validé — thread en génération
+[20:54:01] 🧵 Génération thread pour : L'IA remplace les équipes marketing : créatifs publicitaires…
+[20:54:16] ✅ Thread généré (10 posts) — item 164143
+[20:54:58] ✅ Thread généré (10 posts) — item 696971
+[20:59:11] ✅ Insight 431531 validé — thread en génération
+[20:59:11] 🧵 Génération thread pour : Vibeshare : Plateforme gratuite pour promouvoir vos projets …
+[21:00:01] ✅ Thread généré (10 posts) — item 431531

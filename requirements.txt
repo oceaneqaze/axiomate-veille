@@ -1,0 +1,7 @@
+requests
+feedparser
+anthropic
+yagmail
+python-dotenv
+flask
+flask-cors

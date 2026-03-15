@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXIOMATE — Bibliothèque IA v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080A0F;--bg2:#0D1017;--bg3:#131820;--border:#1E2530;--accent:#E8A020;--accent2:#F0C060;--text:#E8EAF0;--muted:#6B7385;--reddit:#FF4500;--youtube:#FF0000;--blog:#00C896;--twitter:#1D9BF0;--facebook:#1877F2;--tag-bg:rgba(232,160,32,0.12);--fb-bg:rgba(24,119,242,0.08);--fb-border:rgba(24,119,242,0.25);--green:#00C896;--red:#FF4560;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;min-height:100vh;}
+header{position:sticky;top:0;z-index:100;background:rgba(8,10,15,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:.08em;color:var(--accent);}
+.logo span{color:var(--text);}
+.last-sync{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.container{max-width:1400px;margin:0 auto;padding:32px;}
+.stats-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:28px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.stat-num{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:3px;}
+.stat-num.green{color:var(--green);}.stat-num.orange{color:var(--accent);}.stat-num.red{color:var(--red);}.stat-num.blue{color:var(--facebook);}
+.stat-label{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.main-tabs{display:flex;gap:4px;margin-bottom:28px;border-bottom:2px solid var(--border);}
+.main-tab{padding:12px 20px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;display:flex;align-items:center;gap:8px;}
+.main-tab:hover{color:var(--text);}.main-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-family:'JetBrains Mono',monospace;}
+.tab-badge.pending{background:rgba(232,160,32,.15);color:var(--accent);}
+.tab-badge.approved{background:rgba(0,200,150,.12);color:var(--green);}
+.tab-badge.fb{background:var(--fb-bg);color:var(--facebook);}
+.panel{display:none;}.panel.active{display:block;}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.search-wrap{flex:1;min-width:220px;position:relative;}
+.search-wrap::before{content:'⌕';position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:17px;}
+.search-input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 38px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;transition:border-color .2s;}
+.search-input:focus{border-color:var(--accent);}.search-input::placeholder{color:var(--muted);}
+.filter-group{display:flex;gap:6px;flex-wrap:wrap;}
+.filter-btn{padding:8px 13px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.filter-btn:hover{border-color:var(--accent);color:var(--text);}.filter-btn.active{background:var(--tag-bg);border-color:var(--accent);color:var(--accent);}
+.source-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.pending-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:20px;}
+.pending-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;position:relative;}
+.pending-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:.5;}
+.pending-card.generating::before{background:linear-gradient(90deg,var(--facebook),#60A0FF);animation:glow 1.5s infinite alternate;}
+.pending-card.approved::before{background:var(--green);opacity:1;}
+.pending-card.rejected{opacity:.4;}
+@keyframes glow{from{opacity:.5}to{opacity:1}}
+.p-card-body{padding:20px;}
+.p-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.p-source-badge{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid;flex-shrink:0;}
+.p-source-badge.reddit{color:var(--reddit);border-color:rgba(255,69,0,.3);background:rgba(255,69,0,.08);}
+.p-source-badge.youtube{color:var(--youtube);border-color:rgba(255,0,0,.3);background:rgba(255,0,0,.08);}
+.p-source-badge.blog{color:var(--blog);border-color:rgba(0,200,150,.3);background:rgba(0,200,150,.08);}
+.p-source-badge.twitter{color:var(--twitter);border-color:rgba(29,155,240,.3);background:rgba(29,155,240,.08);}
+.status-pill{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.05em;}
+.status-pill.pending{background:rgba(232,160,32,.12);color:var(--accent);}
+.status-pill.generating{background:rgba(24,119,242,.15);color:var(--facebook);animation:blink .8s infinite;}
+.status-pill.approved{background:rgba(0,200,150,.12);color:var(--green);}
+.status-pill.rejected{background:rgba(255,69,86,.1);color:var(--red);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.p-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;line-height:1.4;margin-bottom:10px;}
+.p-summary{font-size:11px;line-height:1.7;color:#8892A4;margin-bottom:12px;}
+.p-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;}
+.tag{font-size:10px;padding:3px 9px;border-radius:4px;background:var(--tag-bg);color:var(--accent2);}
+.p-meta{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:14px;}
+.p-key-points{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:14px;}
+.p-kp-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;}
+.p-kp{display:flex;gap:8px;font-size:11px;color:#C8D0DC;line-height:1.6;margin-bottom:5px;}
+.p-kp::before{content:'→';color:var(--accent);flex-shrink:0;}
+.p-actions{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;}
+.btn-validate{flex:1;padding:11px 16px;background:var(--green);border:none;border-radius:8px;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-validate:hover{background:#00A87C;}.btn-validate:disabled{background:#1E3A2F;color:#4A7A6A;cursor:not-allowed;}
+.btn-reject{padding:11px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s;}
+.btn-reject:hover{border-color:var(--red);color:var(--red);}.btn-reject:disabled{opacity:.4;cursor:not-allowed;}
+.btn-view-thread{flex:1;padding:11px 16px;background:var(--fb-bg);border:1px solid var(--fb-border);border-radius:8px;color:var(--facebook);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-view-thread:hover{background:var(--facebook);color:white;}
+.generating-msg{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;color:var(--facebook);font-size:12px;background:rgba(24,119,242,.06);}
+.spinner{width:14px;height:14px;border:2px solid rgba(24,119,242,.3);border-top-color:var(--facebook);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:22px;}
+.fb-card{background:var(--bg2);border:1px solid var(--fb-border);border-radius:18px;overflow:hidden;transition:all .25s;}
+.fb-card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(24,119,242,.1);}
+.fb-card-header{padding:18px 22px;background:linear-gradient(135deg,rgba(24,119,242,.1),rgba(24,119,242,.03));border-bottom:1px solid var(--fb-border);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.fb-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--text);line-height:1.3;margin-bottom:4px;}
+.fb-card-sub{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fb-logo{width:34px;height:34px;background:var(--facebook);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:17px;flex-shrink:0;font-family:'Syne',sans-serif;}
+.post-nav{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;overflow-x:auto;}
+.post-dot{width:27px;height:27px;border-radius:50%;border:1px solid var(--border);background:var(--bg3);color:var(--muted);font-size:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Syne',sans-serif;font-weight:700;}
+.post-dot:hover{border-color:var(--facebook);color:var(--facebook);}.post-dot.active{background:var(--facebook);border-color:var(--facebook);color:white;}
+.post-body{padding:20px;min-height:200px;}
+.post-number{font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:var(--facebook);margin-bottom:10px;}
+.post-content{font-size:12px;line-height:1.9;color:#C8D0DC;white-space:pre-wrap;}
+.fb-card-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:10px;}
+.btn-copy-post{flex:1;padding:10px 14px;background:var(--facebook);border:none;border-radius:8px;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-copy-post:hover{background:#1565D8;}.btn-copy-post.copied{background:var(--green);}
+.btn-copy-all{padding:10px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-copy-all:hover{border-color:var(--accent);color:var(--accent);}.btn-copy-all.copied{border-color:var(--green);color:var(--green);}
+.empty{grid-column:1/-1;text-align:center;padding:80px 0;color:var(--muted);font-size:13px;}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:.3;}
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;padding:14px 20px;border-radius:12px;font-size:13px;font-family:'Syne',sans-serif;font-weight:700;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}.toast.success{background:var(--green);color:white;}.toast.info{background:var(--facebook);color:white;}.toast.error{background:var(--red);color:white;}
+@media(max-width:768px){.container{padding:16px;}.stats-bar{grid-template-columns:repeat(3,1fr);}.pending-grid,.fb-grid{grid-template-columns:1fr;}header{padding:0 16px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">AXIO<span>MATE</span> <span style="color:var(--muted);font-weight:400;font-size:12px;">/ Veille IA v4</span></div>
+  <div class="last-sync"><div class="sync-dot"></div><span id="syncTime">Chargement…</span></div>
+</header>
+<div class="container">
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num orange" id="statPending">0</div><div class="stat-label">À valider</div></div>
+    <div class="stat-card"><div class="stat-num green" id="statApproved">0</div><div class="stat-label">Validés</div></div>
+    <div class="stat-card"><div class="stat-num blue" id="statThreads">0</div><div class="stat-label">Threads prêts</div></div>
+    <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-num" id="statToday">0</div><div class="stat-label">Aujourd'hui</div></div>
+    <div class="stat-card"><div class="stat-num red" id="statRejected">0</div><div class="stat-label">Rejetés</div></div>
+  </div>
+  <div class="main-tabs">
+    <button class="main-tab active" data-panel="pending">⏳ À valider <span class="tab-badge pending" id="badgePending">0</span></button>
+    <button class="main-tab" data-panel="approved">✅ Validés <span class="tab-badge approved" id="badgeApproved">0</span></button>
+    <button class="main-tab" data-panel="facebook">📱 Threads Facebook <span class="tab-badge fb" id="badgeFB">0</span></button>
+  </div>
+  <div class="panel active" id="panel-pending">
+    <div class="toolbar">
+      <div class="search-wrap"><input class="search-input" type="text" id="pendingSearch" placeholder="Rechercher…"></div>
+      <div class="filter-group" id="srcFilter">
+        <button class="filter-btn active" data-source="all">Toutes</button>
+        <button class="filter-btn" data-source="reddit"><span class="source-dot" style="background:var(--reddit)"></span>Reddit</button>
+        <button class="filter-btn" data-source="youtube"><span class="source-dot" style="background:var(--youtube)"></span>YouTube</button>
+        <button class="filter-btn" data-source="blog"><span class="source-dot" style="background:var(--blog)"></span>Blog</button>
+        <button class="filter-btn" data-source="twitter"><span class="source-dot" style="background:var(--twitter)"></span>Twitter</button>
+      </div>
+    </div>
+    <div class="pending-grid" id="pendingGrid"><div class="empty"><div class="empty-icon">📡</div><div>Lance veille.py puis server.py</div></div></div>
+  </div>
+  <div class="panel" id="panel-approved">
+    <div class="toolbar"><div class="search-wrap"><input class="search-input" type="text" id="approvedSearch" placeholder="Rechercher…"></div></div>
+    <div class="pending-grid" id="approvedGrid"><div class="empty"><div class="empty-icon">✅</div><div>Aucun insight validé</div></div></div>
+  </div>
+  <div class="panel" id="panel-facebook">
+    <div class="toolbar"><div class="search-wrap"><input class="search-input" type="text" id="fbSearch" placeholder="Rechercher dans les threads…"></div></div>
+    <div class="fb-grid" id="fbGrid"><div class="empty"><div class="empty-icon">📱</div><div>Valide des insights pour générer les threads</div></div></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+let allItems=[];
+let activeSrc='all',pendingQ='',approvedQ='',fbQ='';
+const activePost={};
+let polling=null;
+
+function toast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),3000);}
+
+async function loadData(){
+  try{
+    const r=await fetch('data.json?t='+Date.now());
+    const d=await r.json();
+    allItems=d.items||[];
+    document.getElementById('syncTime').textContent='Sync: '+(d.last_sync||'—');
+    render();
+    if(allItems.some(i=>i.status==='generating')&&!polling) polling=setInterval(poll,4000);
+  }catch(e){loadDemo();}
+}
+
+async function poll(){
+  if(!allItems.some(i=>i.status==='generating')){clearInterval(polling);polling=null;return;}
+  try{
+    const r=await fetch('data.json?t='+Date.now());
+    const d=await r.json();
+    const prev=allItems.filter(i=>i.status==='generating').map(i=>i.id);
+    allItems=d.items||[];
+    prev.forEach(id=>{
+      const it=allItems.find(i=>i.id===id);
+      if(it&&it.status==='approved'&&it.facebook_thread?.length) toast('✅ Thread prêt : "'+it.title.substring(0,35)+'…"','success');
+    });
+    render();
+    if(!allItems.some(i=>i.status==='generating')){clearInterval(polling);polling=null;}
+  }catch(e){}
+}
+
+function render(){updateStats();renderPending();renderApproved();renderFB();}
+
+function updateStats(){
+  const today=new Date().toISOString().split('T')[0];
+  const p=allItems.filter(i=>i.status==='pending'||i.status==='generating');
+  const a=allItems.filter(i=>i.status==='approved');
+  const re=allItems.filter(i=>i.status==='rejected');
+  const th=allItems.filter(i=>i.facebook_thread?.length>0);
+  document.getElementById('statPending').textContent=p.length;
+  document.getElementById('statApproved').textContent=a.length;
+  document.getElementById('statThreads').textContent=th.length;
+  document.getElementById('statTotal').textContent=allItems.length;
+  document.getElementById('statToday').textContent=allItems.filter(i=>i.date===today).length;
+  document.getElementById('statRejected').textContent=re.length;
+  document.getElementById('badgePending').textContent=p.length;
+  document.getElementById('badgeApproved').textContent=a.length;
+  document.getElementById('badgeFB').textContent=th.length;
+}
+
+function renderPending(){
+  const g=document.getElementById('pendingGrid');
+  const items=allItems.filter(i=>{
+    const s=i.status||'pending';
+    if(s==='rejected'||s==='approved') return false;
+    return (activeSrc==='all'||i.source===activeSrc)&&(!pendingQ||i.title.toLowerCase().includes(pendingQ)||i.summary?.toLowerCase().includes(pendingQ));
+  });
+  if(!items.length){g.innerHTML='<div class="empty"><div class="empty-icon">🎉</div><div>Tous traités !</div></div>';return;}
+  g.innerHTML=items.map(item=>{
+    const s=item.status||'pending';
+    const isGen=s==='generating';
+    const kps=(item.key_points||[]).map(p=>`<div class="p-kp">${p}</div>`).join('');
+    const scoreC=item.relevance_score>=80?'var(--green)':item.relevance_score>=65?'var(--accent)':'var(--muted)';
+    const act=isGen
+      ?`<div class="generating-msg"><div class="spinner"></div>Thread en cours de génération…</div>`
+      :`<div class="p-actions"><button class="btn-validate" onclick="doValidate(${item.id},this)">✅ Valider — Générer le thread</button><button class="btn-reject" onclick="doReject(${item.id},this)">❌</button></div>`;
+    return`<div class="pending-card ${s}" id="pc-${item.id}"><div class="p-card-body">
+      <div class="p-card-header"><span class="p-source-badge ${item.source}">${si(item.source)} ${item.source}</span><span class="status-pill ${s}">${sl(s)}</span></div>
+      <div class="p-title">${item.title}</div>
+      <div class="p-meta"><span>📂 ${item.category}</span><span style="color:${scoreC};font-weight:700;">⚡ ${item.relevance_score}%</span><span>📅 ${item.date}</span></div>
+      <div class="p-summary">${item.summary}</div>
+      ${kps?`<div class="p-key-points"><div class="p-kp-title">Points clés</div>${kps}</div>`:''}
+      <div class="p-tags">${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>${act}</div>`;
+  }).join('');
+}
+
+function renderApproved(){
+  const g=document.getElementById('approvedGrid');
+  const items=allItems.filter(i=>i.status==='approved'&&(!approvedQ||i.title.toLowerCase().includes(approvedQ)));
+  if(!items.length){g.innerHTML='<div class="empty"><div class="empty-icon">✅</div><div>Aucun insight validé</div></div>';return;}
+  g.innerHTML=items.map(item=>{
+    const hasT=item.facebook_thread?.length>0;
+    const kps=(item.key_points||[]).map(p=>`<div class="p-kp">${p}</div>`).join('');
+    return`<div class="pending-card approved"><div class="p-card-body">
+      <div class="p-card-header"><span class="p-source-badge ${item.source}">${si(item.source)} ${item.source}</span><span class="status-pill approved">✅ Validé</span></div>
+      <div class="p-title">${item.title}</div>
+      <div class="p-meta"><span>📂 ${item.category}</span><span>📅 ${item.date}</span></div>
+      <div class="p-summary">${item.summary}</div>
+      ${kps?`<div class="p-key-points"><div class="p-kp-title">Points clés</div>${kps}</div>`:''}
+      </div><div class="p-actions">${hasT
+        ?`<button class="btn-view-thread" onclick="goThread(${item.id})">📱 Voir le thread (${item.facebook_thread.length} posts)</button>`
+        :`<div class="generating-msg"><div class="spinner"></div>Thread en génération…</div>`
+      }</div></div>`;
+  }).join('');
+}
+
+function renderFB(){
+  const g=document.getElementById('fbGrid');
+  const items=allItems.filter(i=>i.facebook_thread?.length>0&&(!fbQ||i.title.toLowerCase().includes(fbQ)));
+  if(!items.length){g.innerHTML='<div class="empty"><div class="empty-icon">📱</div><div>Valide des insights pour générer les threads</div></div>';return;}
+  g.innerHTML=items.map(item=>{
+    const posts=[...item.facebook_thread].sort((a,b)=>a.numero-b.numero);
+    const idx=activePost[item.id]??0;
+    const cur=posts[idx];
+    const dots=posts.map((p,i)=>`<button class="post-dot${i===idx?' active':''}" onclick="setPost(${item.id},${i})">${p.numero}</button>`).join('');
+    return`<div class="fb-card" id="fbc-${item.id}">
+      <div class="fb-card-header"><div style="flex:1"><div class="fb-card-title">${item.title}</div><div class="fb-card-sub"><span class="p-source-badge ${item.source}" style="font-size:9px;padding:2px 7px;">${si(item.source)} ${item.source}</span><span>${item.category}</span><span>•</span><span>${item.date}</span></div></div><div class="fb-logo">f</div></div>
+      <div class="post-nav" id="pn-${item.id}">${dots}</div>
+      <div class="post-body"><div class="post-number" id="pnum-${item.id}">Post ${cur.numero}/10</div><div class="post-content" id="pc-${item.id}">${esc(cur.contenu)}</div></div>
+      <div class="fb-card-footer"><button class="btn-copy-post" onclick="cpPost(${item.id},this)">📋 Copier ce post</button><button class="btn-copy-all" onclick="cpAll(${item.id},this)">📥 Tout le thread</button></div>
+    </div>`;
+  }).join('');
+}
+
+function setPost(id,idx){
+  const item=allItems.find(i=>i.id===id);if(!item)return;
+  activePost[id]=idx;
+  const posts=[...item.facebook_thread].sort((a,b)=>a.numero-b.numero);
+  document.getElementById(`pc-${id}`).textContent=posts[idx].contenu;
+  document.getElementById(`pnum-${id}`).textContent=`Post ${posts[idx].numero}/10`;
+  document.querySelectorAll(`#pn-${id} .post-dot`).forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+function cpPost(id,btn){const item=allItems.find(i=>i.id===id);if(!item)return;const idx=activePost[id]??0;const posts=[...item.facebook_thread].sort((a,b)=>a.numero-b.numero);navigator.clipboard.writeText(posts[idx].contenu).then(()=>{btn.textContent='✅ Copié!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 Copier ce post';btn.classList.remove('copied');},2000);});}
+function cpAll(id,btn){const item=allItems.find(i=>i.id===id);if(!item)return;const full=[...item.facebook_thread].sort((a,b)=>a.numero-b.numero).map(p=>p.contenu).join('\n\n'+'—'.repeat(30)+'\n\n');navigator.clipboard.writeText(full).then(()=>{btn.textContent='✅ Copié!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📥 Tout le thread';btn.classList.remove('copied');},2500);});}
+function goThread(id){document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelector('[data-panel="facebook"]').classList.add('active');document.getElementById('panel-facebook').classList.add('active');setTimeout(()=>{const el=document.getElementById(`fbc-${id}`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},100);}
+
+async function doValidate(id,btn){
+  btn.disabled=true;btn.textContent='⏳…';
+  try{
+    const r=await fetch('/api/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});
+    const d=await r.json();
+    if(d.success){toast('✅ Validé ! Thread en génération…','info');const it=allItems.find(i=>i.id===id);if(it)it.status='generating';render();if(!polling)polling=setInterval(poll,4000);}
+    else{toast('❌ '+d.error,'error');btn.disabled=false;btn.textContent='✅ Valider — Générer le thread';}
+  }catch(e){toast('❌ Lance server.py d\'abord !','error');btn.disabled=false;btn.textContent='✅ Valider — Générer le thread';}
+}
+async function doReject(id,btn){
+  btn.disabled=true;
+  try{await fetch('/api/reject',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});const it=allItems.find(i=>i.id===id);if(it)it.status='rejected';toast('Rejeté','error');render();}
+  catch(e){toast('❌ Lance server.py d\'abord !','error');btn.disabled=false;}
+}
+
+function si(s){return{reddit:'r/',youtube:'▶',blog:'◈',twitter:'𝕏'}[s]||'○';}
+function sl(s){return{pending:'⏳ À valider',generating:'⚙️ Génération…',approved:'✅ Validé',rejected:'❌ Rejeté'}[s]||s;}
+function esc(str){return(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function loadDemo(){
+  const today=new Date().toISOString().split('T')[0];
+  allItems=[
+    {id:1,title:"Kling AI : créer 50 vidéos produits par jour sans caméra",source:"twitter",category:"UGC & Contenu",date:today,summary:"Kling AI génère des vidéos produits ultra-réalistes avec un prompt texte. La clé : décrire l'environnement avant le produit.",key_points:["Structure : Environnement → Sujet → Action","Plan gratuit : ~15 vidéos/jour","Taux conversion ×2.3 vs photo"],tags:["Kling AI","UGC","Vidéo"],relevance_score:97,url:"https://kling.ai",status:"pending",facebook_thread:[]},
+    {id:2,title:"n8n + Claude = machine à contenu 100% automatique",source:"reddit",category:"Automatisation",date:today,summary:"Workflow n8n qui génère posts Facebook, captions et scripts TikTok en automatique à partir d'un brief produit.",key_points:["Coût ~0.02$ par set","Fonctionne 24h/24","Template dispo"],tags:["n8n","Claude","Automatisation"],relevance_score:94,url:"https://reddit.com",status:"pending",facebook_thread:[]},
+    {id:3,title:"ElevenLabs voix temps réel — 80ms de latence",source:"blog",category:"Audio IA",date:today,summary:"ElevenLabs sort une API voix temps réel. Parfait pour des agents vocaux IA pour PME africaines.",key_points:["80ms quasi-instantané","29 langues","Plan gratuit"],tags:["ElevenLabs","Audio","API"],relevance_score:88,url:"https://elevenlabs.io",status:"generating",facebook_thread:[]},
+    {id:4,title:"Google Veo 3 : vidéo + audio en une seule requête",source:"blog",category:"Génération Vidéo",date:today,summary:"Veo 3 génère la vidéo ET l'audio simultanément. Sons, musique, ambiance — tout en une requête.",key_points:["Audio natif synchronisé","Accès Google AI Studio","4K cinématographique"],tags:["Google Veo","Vidéo"],relevance_score:94,url:"https://deepmind.google",status:"approved",facebook_thread:[{numero:1,contenu:"1/10 🚨 Google vient de sortir quelque chose qui va changer la création vidéo pour toujours.\n\nVeo 3 génère maintenant la vidéo ET l'audio en même temps.\n\nUne seule phrase. Une vidéo complète avec sons, musique, ambiance.\n\nJe t'explique tout dans ce thread 👇\n\n—"},{numero:2,contenu:"2/10 💡 Le problème classique du créateur de contenu...\n\nTu génères une belle vidéo avec un outil IA.\nMais elle est muette. Ou avec une musique générique qui colle pas.\n\nDu coup tu passes 30 minutes sur CapCut pour ajouter des sons.\n\nMultiplié par 10 vidéos par semaine = 5 heures perdues.\n\nVeo 3 supprime cette étape complètement.\n\n—"},{numero:3,contenu:"3/10 🔍 Veo 3, c'est quoi exactement ?\n\nC'est le nouveau modèle vidéo de Google DeepMind.\n\nLa version précédente générait des vidéos silencieuses.\n\nVeo 3 fait quelque chose de nouveau : il comprend les sons qui devraient accompagner la scène et les génère en même temps.\n\nBruit de vagues si tu décris une plage.\nMusique de marché si tu décris une scène africaine.\nSons de cuisine si tu films un plat.\n\n—"},{numero:4,contenu:"4/10 ⚡ Comment ça marche concrètement ?\n\nTu écris ton prompt comme d'habitude.\nMais tu peux maintenant inclure des indications sonores.\n\nExemple :\n\"Marché animé à Lomé, étals de tissus colorés, vendeuse qui présente ses pagnes, bruits de marché en fond, musique traditionnelle douce\"\n\nVeo 3 génère :\n✅ La vidéo\n✅ Les bruits ambiants\n✅ La musique\n✅ Tout synchronisé\n\n—"},{numero:5,contenu:"5/10 🛠️ Comment accéder à Veo 3 ?\n\nÉtape 1 : Va sur aistudio.google.com\nÉtape 2 : Crée un compte Google\nÉtape 3 : Cherche Veo 3 dans les modèles\nÉtape 4 : Rejoins la waitlist si pas dispo\n\nActuellement en accès limité mais ça s'ouvre progressivement.\n\n—"},{numero:6,contenu:"6/10 💡 Exemple concret : Kofi et sa boutique\n\nKofi vend des vêtements à Accra.\n\nPrompt utilisé : \"Boutique moderne, mannequin en robe wax colorée, lumière chaude, musique afrobeats légère\"\n\nRésultat : vidéo 8 secondes avec la bonne musique, bons sons.\n\nPostée sur Instagram et TikTok.\n3 jours après : +67 abonnés. 8 commandes directes.\n\n—"},{numero:7,contenu:"7/10 ⚠️ Les erreurs à éviter\n\nErreur 1 : Descriptions audio trop vagues\n\"avec de la musique\" → confus\n✅ Précise le genre : \"musique afrobeats douce\"\n\nErreur 2 : Trop d'éléments sonores\n✅ Maximum 2-3 éléments audio\n\nErreur 3 : Oublier l'ambiance\n✅ Ajoute toujours \"sons d'ambiance\" + environnement\n\n—"},{numero:8,contenu:"8/10 📈 Résultats réalistes\n\nSemaine 1-2 : Vidéos complètes en 5 min.\nSemaine 3-4 : Stock de contenu avec son.\nAprès 1 mois : +40-60% d'engagement.\n\nLes créateurs Veo 3 rapportent 3× plus de temps de visionnage vs vidéos muettes.\n\n—"},{numero:9,contenu:"9/10 🚀 Pour aller plus loin\n\nVeo 3 + ces outils :\n🎙️ ElevenLabs — Voix off pro\n✂️ CapCut — Sous-titres + effets\n📱 Buffer — Programmation auto\n🤖 n8n — Workflow complet\n\n2-3 vidéos complètes/jour en 30 minutes.\n\n—"},{numero:10,contenu:"10/10 🎯 Ce que tu dois retenir\n\n→ Veo 3 génère vidéo + audio en une requête\n→ Précise toujours le type de son dans ton prompt\n→ Plan gratuit via Google AI Studio\n\nDis-moi : tu crées du contenu pour quel business ? Je t'aide à construire ton premier prompt.\n\n👇\n\n━━━━━━━━━━━━━━━━━━━\n👉 Axiomate — axiomate.site\n\n#IA #GoogleVeo #MarketingDigital #BusinessAfrica #AxiomateTips"}]}
+  ];
+  document.getElementById('syncTime').textContent='Mode démo — Lance veille.py + server.py';
+  render();
+}
+
+document.querySelectorAll('.main-tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));tab.classList.add('active');document.getElementById(`panel-${tab.dataset.panel}`).classList.add('active');});});
+document.getElementById('pendingSearch').addEventListener('input',e=>{pendingQ=e.target.value.toLowerCase().trim();renderPending();});
+document.getElementById('approvedSearch').addEventListener('input',e=>{approvedQ=e.target.value.toLowerCase().trim();renderApproved();});
+document.getElementById('fbSearch').addEventListener('input',e=>{fbQ=e.target.value.toLowerCase().trim();renderFB();});
+document.querySelectorAll('#srcFilter [data-source]').forEach(btn=>{btn.addEventListener('click',()=>{activeSrc=btn.dataset.source;document.querySelectorAll('#srcFilter [data-source]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPending();});});
+loadData();
+</script>
+</body>
+</html>
